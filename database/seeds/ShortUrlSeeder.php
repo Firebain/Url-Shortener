@@ -12,6 +12,6 @@ class ShortUrlSeeder extends Seeder
      */
     public function run()
     {
-        factory(ShortUrl::class, 10000)->create();
+        factory(ShortUrl::class, 100)->create();
     }
 }

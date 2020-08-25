@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
-use App\Facades\Bijective;
 use Illuminate\Http\Request;
 
 class ShortUrlController extends Controller
