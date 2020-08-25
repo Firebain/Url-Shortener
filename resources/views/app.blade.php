@@ -15,7 +15,7 @@
 
 <body>
     <div class="m-auto" id="app">
-        <login-component></login-component>
+        <root-component></root-component>
     </div>
 </body>
 

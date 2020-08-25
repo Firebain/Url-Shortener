@@ -10967,3 +10967,8 @@ body {
   }
 }
 
+.error {
+  margin-bottom: 0.25rem;
+  color: #e3342f;
+}
+
