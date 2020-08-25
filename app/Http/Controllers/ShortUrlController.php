@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
+use App\Notifications\ShortUrlCreated;
 use Illuminate\Http\Request;
 
 class ShortUrlController extends Controller
@@ -33,19 +34,22 @@ class ShortUrlController extends Controller
             ]
         ]);
 
-        if ($short_url = ShortUrl::where("url", $request->link)->first()) {
-            return [
-                "exists" => true,
-                "url" => $short_url->path
-            ];
+        $short_url = ShortUrl::where("url", $request->link)->first();
+
+        if ($short_url !== null) {
+            $exists = true;
+        } else {
+            $exists = false;
+
+            $short_url = ShortUrl::create([
+                "url" => $request->link
+            ]);
         }
 
-        $short_url = ShortUrl::create([
-            "url" => $request->link
-        ]);
+        $request->user()->notify(new ShortUrlCreated($short_url));
 
         return [
-            "exists" => false,
+            "exists" => $exists,
             "url" => $short_url->path
         ];
     }
