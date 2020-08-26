@@ -20,5 +20,7 @@ Route::get('/{shortUrl}', 'ShortUrlController@show')->name('redirect');
 Route::group(["middleware" => "auth"], function () {
     Route::get('/', 'ShortUrlController@create')->name('home');
 
-    Route::post('/create', "ShortUrlController@store")->name('create');
+    Route::middleware("throttle:30,1")
+        ->post('/create', "ShortUrlController@store")
+        ->name('create');
 });

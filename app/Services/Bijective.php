@@ -59,4 +59,18 @@ class Bijective
 
         return $i;
     }
+
+    public function validate($input)
+    {
+        $input = str_split($input);
+
+        foreach($input as $char)
+        {
+            if (!in_array($char, $this->_alphabet)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

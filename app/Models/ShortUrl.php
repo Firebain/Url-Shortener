@@ -11,6 +11,10 @@ class ShortUrl extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
+        if (!Bijective::validate($value)) {
+            return null;
+        }
+
         return $this
             ->where($field ?? $this->getRouteKeyName(), Bijective::decode($value))
             ->first();

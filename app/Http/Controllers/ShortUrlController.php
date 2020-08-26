@@ -29,6 +29,7 @@ class ShortUrlController extends Controller
         $request->validate([
             "link" => [
                 "required",
+                "max:255",
                 "url",
                 "starts_with:http,https"
             ]

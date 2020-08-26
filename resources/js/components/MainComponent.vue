@@ -70,12 +70,16 @@ export default {
         .catch((err) => {
           let errors = [];
 
-          if (err.response?.status === 422) {
+          const status = err.response?.status;
+
+          if (status === 422) {
             const errorsBag = err.response.data.errors;
 
             Object.keys(errorsBag).forEach((key) =>
               errors.push(...errorsBag[key])
             );
+          } else if (status === 429) {
+            errors.push("Too many attempts");
           } else {
             errors.push("Unexpected error");
           }
