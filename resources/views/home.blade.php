@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Введите ссылку</div>
+                <div class="card-header">Create url</div>
 
                 <div class="card-body" id="app">
                     <main-component></main-component>

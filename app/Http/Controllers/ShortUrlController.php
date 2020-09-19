@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ShortUrlController extends Controller
 {
+    public function index()
+    {
+        $urls = auth()->user()->short_urls;
+
+        return view("url_list", [
+            "short_urls" => $urls
+        ]);
+    }
+
     public function create()
     {
         return view("home");
@@ -24,9 +33,13 @@ class ShortUrlController extends Controller
             ]
         ]);
 
+        $user = $request->user();
+
         $short_url = ShortUrl::firstOrCreate(["url" => $request->link]);
 
-        $request->user()->notify(new ShortUrlCreated($short_url));
+        $user->short_urls()->syncWithoutDetaching($short_url);
+
+        $user->notify(new ShortUrlCreated($short_url));
 
         return [
             "url" => $short_url->path
@@ -35,6 +48,8 @@ class ShortUrlController extends Controller
 
     public function show(ShortUrl $shortUrl)
     {
+        $shortUrl->increment("hits");
+
         return redirect($shortUrl->url);
     }
 }

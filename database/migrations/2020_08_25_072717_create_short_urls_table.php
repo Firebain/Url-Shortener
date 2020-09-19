@@ -16,6 +16,7 @@ class CreateShortUrlsTable extends Migration
         Schema::create('short_urls', function (Blueprint $table) {
             $table->id();
             $table->string("url")->unique();
+            $table->integer("hits")->default(0);
             $table->timestamps();
         });
     }

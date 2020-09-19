@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/{shortUrl}', 'ShortUrlController@show')->name('redirect');
-
 Route::group(["middleware" => "auth"], function () {
-    Route::get('/', 'ShortUrlController@create')->name('home');
+    Route::get('/', 'ShortUrlController@create')->name('short_urls.create');
 
     Route::middleware("throttle:30,1")
-        ->post('/create', "ShortUrlController@store")
-        ->name('create');
+        ->post('/short_urls', "ShortUrlController@store")
+        ->name('short_urls.store');
+
+    Route::get('/short_urls', 'ShortUrlController@index')->name('short_urls.index');
 });
+
+Route::get('/{shortUrl}', 'ShortUrlController@show')->name('short_urls.show');

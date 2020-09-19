@@ -22,6 +22,6 @@ class ShortUrl extends Model
 
     public function getPathAttribute()
     {
-        return route("redirect", ["shortUrl" => UrlShortener::encode($this->id)]);
+        return route("short_urls.show", ["shortUrl" => UrlShortener::encode($this->id)]);
     }
 }
