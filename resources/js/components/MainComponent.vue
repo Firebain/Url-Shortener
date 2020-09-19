@@ -1,92 +1,102 @@
 <template>
-  <form @submit.prevent="submit">
-    <div class="form-group row">
-      <label for="url" class="col-md-4 col-form-label text-md-right">Ваша ссылка</label>
+    <form @submit.prevent="submit">
+        <div class="form-group row">
+            <label for="url" class="col-md-4 col-form-label text-md-right"
+                >Ваша ссылка</label
+            >
 
-      <div class="col-md-6">
-        <input
-          id="url"
-          v-model="url"
-          type="text"
-          class="form-control"
-          @input="clean"
-          :class="{'is-invalid': errors.length > 0}"
-          name="url"
-          required
-        />
+            <div class="col-md-6">
+                <input
+                    id="url"
+                    v-model="url"
+                    type="text"
+                    class="form-control"
+                    @input="clean"
+                    :class="{ 'is-invalid': errors.length > 0 }"
+                    name="url"
+                    required
+                />
 
-        <span v-if="errors.length > 0" class="invalid-feedback" role="alert">
-          <p class="mb-0" v-for="(error, key) in errors" :key="key">
-            <strong>{{ error }}</strong>
-          </p>
-        </span>
-      </div>
-    </div>
+                <span
+                    v-if="errors.length > 0"
+                    class="invalid-feedback"
+                    role="alert"
+                >
+                    <p class="mb-0" v-for="(error, key) in errors" :key="key">
+                        <strong>{{ error }}</strong>
+                    </p>
+                </span>
+            </div>
+        </div>
 
-    <div class="form-group row" v-if="short !== null">
-      <label class="col-md-4 col-form-label text-md-right">Сокращенная ссылка</label>
+        <div class="form-group row" v-if="short !== null">
+            <label class="col-md-4 col-form-label text-md-right"
+                >Сокращенная ссылка</label
+            >
 
-      <div class="col-md-6">
-        <input v-model="short" type="text" class="form-control" disabled />
+            <div class="col-md-6">
+                <input
+                    v-model="short"
+                    type="text"
+                    class="form-control"
+                    disabled
+                />
+            </div>
+        </div>
 
-        <small v-if="exists" class="form-text text-muted">Данная ссылка уже существовала</small>
-      </div>
-    </div>
-
-    <div class="form-group row mb-0">
-      <div class="col-md-8 offset-md-4">
-        <button type="submit" class="btn btn-primary">Создать ссылку</button>
-      </div>
-    </div>
-  </form>
+        <div class="form-group row mb-0">
+            <div class="col-md-8 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                    Создать ссылку
+                </button>
+            </div>
+        </div>
+    </form>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      url: "",
-      short: null,
-      errors: [],
-      exists: false,
-    };
-  },
-
-  methods: {
-    clean() {
-      this.short = null;
-      this.exists = false;
+    data() {
+        return {
+            url: "",
+            short: null,
+            errors: [],
+        };
     },
-    submit() {
-      axios
-        .post("/create", { link: this.url })
-        .then((res) => {
-          this.errors = [];
-          this.short = res.data.url;
-          this.exists = res.data.exists;
-        })
-        .catch((err) => {
-          let errors = [];
 
-          const status = err.response?.status;
+    methods: {
+        clean() {
+            this.short = null;
+        },
+        submit() {
+            axios
+                .post("/create", { link: this.url })
+                .then((res) => {
+                    this.errors = [];
+                    this.short = res.data.url;
+                })
+                .catch((err) => {
+                    let errors = [];
 
-          if (status === 422) {
-            const errorsBag = err.response.data.errors;
+                    const status = err.response?.status;
 
-            Object.keys(errorsBag).forEach((key) =>
-              errors.push(...errorsBag[key])
-            );
-          } else if (status === 429) {
-            errors.push("Too many attempts");
-          } else {
-            errors.push("Unexpected error");
-          }
+                    if (status === 422) {
+                        const errorsBag = err.response.data.errors;
 
-          this.errors = errors;
-        });
+                        Object.keys(errorsBag).forEach((key) =>
+                            errors.push(...errorsBag[key])
+                        );
+                    } else if (status === 429) {
+                        errors.push("Too many attempts");
+                    } else {
+                        errors.push("Unexpected error");
+                    }
+
+                    this.errors = errors;
+                });
+        },
     },
-  },
 };
 </script>

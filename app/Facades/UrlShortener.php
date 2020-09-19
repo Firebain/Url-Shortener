@@ -4,9 +4,10 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Bijective extends Facade {
+class UrlShortener extends Facade
+{
     protected static function getFacadeAccessor()
     {
-        return 'bijective';
+        return 'url_shortener';
     }
 }

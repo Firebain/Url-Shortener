@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Facades\Bijective;
+use App\Facades\UrlShortener;
 use Illuminate\Database\Eloquent\Model;
 
 class ShortUrl extends Model
@@ -11,16 +11,17 @@ class ShortUrl extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
-        if (!Bijective::validate($value)) {
+        if (!UrlShortener::validate($value)) {
             return null;
         }
 
         return $this
-            ->where($field ?? $this->getRouteKeyName(), Bijective::decode($value))
+            ->where($field ?? $this->getRouteKeyName(), UrlShortener::decode($value))
             ->first();
     }
 
-    public function getPathAttribute() {
-        return route("redirect", ["shortUrl" => Bijective::encode($this->id)]);
+    public function getPathAttribute()
+    {
+        return route("redirect", ["shortUrl" => UrlShortener::encode($this->id)]);
     }
 }

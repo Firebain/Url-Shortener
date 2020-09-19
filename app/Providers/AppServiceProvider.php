@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\Bijective;
+use App\Services\UrlShortener;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('bijective', Bijective::class);
+        $this->app->bind('url_shortener', UrlShortener::class);
     }
 
     /**
