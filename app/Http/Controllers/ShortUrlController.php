@@ -10,7 +10,10 @@ class ShortUrlController extends Controller
 {
     public function index()
     {
-        $urls = auth()->user()->short_urls;
+        $urls = auth()->user()
+            ->short_urls()
+            ->orderBy("id", "desc")
+            ->paginate(7);
 
         return view("url_list", [
             "short_urls" => $urls

@@ -24,9 +24,12 @@
                         </li>
                         @endforelse
                     </ul>
-
                 </div>
             </div>
+        </div>
+
+        <div class="mt-3">
+            {{ $short_urls->links() }}
         </div>
     </div>
 </div>
