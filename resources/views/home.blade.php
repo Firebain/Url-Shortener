@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Create url</div>
 
-                <div class="card-body" id="app">
+                <div class="card-body">
                     <main-component></main-component>
                 </div>
             </div>

@@ -24,6 +24,16 @@ Vue.component(
     require("./components/MainComponent.vue").default
 );
 
+Vue.component(
+    "logo-github",
+    require("vue-ionicons/dist/logo-github.vue").default
+);
+
+Vue.component(
+    "logo-google",
+    require("vue-ionicons/dist/logo-google.vue").default
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -31,5 +41,5 @@ Vue.component(
  */
 
 const app = new Vue({
-    el: "#app",
+    el: "#app"
 });

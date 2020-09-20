@@ -10,13 +10,15 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public const REGULAR_PROVIDER = 'regular';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'provider'
     ];
 
     /**

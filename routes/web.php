@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::group(["middleware" => "guest"], function () {
+    $providers = implode("|", config("services.oauth"));
+    $providers_regex = "^($providers)$";
+
+    Route::get('/login/{provider}', 'Auth\SocialiteLoginController@redirectToProvider')
+        ->where('provider', $providers_regex)
+        ->name("login.provider");
+    Route::get('/login/{provider}/callback', 'Auth\SocialiteLoginController@handleProviderCallback')
+        ->where('provider', $providers_regex);
+});
+
 Route::group(["middleware" => "auth"], function () {
     Route::get('/', 'ShortUrlController@create')->name('short_urls.create');
 
